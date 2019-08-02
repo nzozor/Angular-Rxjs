@@ -7,8 +7,8 @@
     <div class="container">
       <div class="row justify-content-between">
         <div class="col-3">
-          <select class="form-control"
-                  (change)="onSelected($event.target.value)">
+          <select class="form-control" #selectCategory
+                  (change)="onSelected(selectCategory.value)" *ngIf="productCategories$ | async as categories">
             <option value="0">- Display All -</option>
             <option *ngFor="let category of categories"
                     [value]="category.id">{{ category.name }}</option>
@@ -21,10 +21,9 @@
         </div>
       </div>
     </div>
-
     <div class="table-responsive">
       <table class="table mb-0"
-             *ngIf="products">
+             *ngIf="productComplexFilter$ | async as products">
         <thead>
           <tr>
             <th>Product</th>
@@ -38,7 +37,7 @@
           <tr>
             <td>{{ product.productName }}</td>
             <td>{{ product.productCode }}</td>
-            <td>{{ product.categoryId }}</td>
+            <td>{{ product.category }}</td>
             <td>{{ product.price | currency:"USD":"symbol":"1.2-2" }}</td>
             <td>{{ product.quantityInStock }}</td>
           </tr>
